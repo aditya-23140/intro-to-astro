@@ -39,6 +39,7 @@ if (!post) {
 }
 
 const { Content } = await post.render();
+console.log(post.data);
 ---
 
 <Layout title={post.data.title}>
