@@ -1,34 +1,37 @@
 ---
 import "./src/styles/global.css";
+import Header from "../components/header.astro";
+import { ClientRouter } from "astro:transitions";
+// ViewTransition API improves routing between pages but its decrapated now use clientRouter
+// Adding mdx is also helpful check docs
 
 interface Props {
   title: string;
+  description?: string;
+  image?: string;
 }
 
-const { title } = Astro.props;
+const {
+  title,
+  description = "A community of music producer and enthusiasts",
+  image = "/images/band.jpg",
+} = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
+    <meta property="og:image" content={image} />
+    <ClientRouter />
     <title>{title}</title>
   </head>
-  <body>
-    <!-- the place where we enter our code from pages -->
+  <body class="min-h-screen">
+    <Header />
     <slot />
   </body>
 </html>
-
-<!-- is:global applied to all pages -->
-<style is:global>
-  html,
-  body {
-    margin: 0;
-    width: 100%;
-    height: 100%;
-  }
-</style>

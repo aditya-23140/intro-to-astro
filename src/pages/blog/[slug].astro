@@ -1,0 +1,49 @@
+---
+import { getCollection, type CollectionEntry } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import Main from "../../components/Main.astro";
+import H1 from "../../components/H1.astro";
+import { Image } from "astro:assets";
+// Image helps improve image loading and also we need to change image type in config.ts
+
+export const getStaticPaths = async () => {
+  const posts = await getCollection("posts");
+  const paths = posts.map((post) => {
+    return {
+      params: {
+        slug: post.slug,
+      },
+      props: {
+        post,
+      },
+    };
+  });
+  return paths;
+};
+
+type Props = {
+  post: CollectionEntry<"posts">;
+};
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+---
+
+<Layout title={post.data.title}>
+  <Main>
+    <H1 text={post.data.title} />
+    <Image
+      src={post.data.image}
+      width={1024}
+      height={1024 / 1.5}
+      alt={post.data.title}
+      class="rounded-2xl shadow-xl mb-4 aspect-thumbnail object=cover"
+    />
+    <!-- WE NEED TAILWIND TYPOGRAPHY TO BE ABLE TO STYLE MARKDOWN -->
+    <div
+      class="prose prose-lg overflow-visible relative mb-16 max-w-[96%] max-md:max-w-full"
+    >
+      <Content />
+    </div>
+  </Main>
+</Layout>
