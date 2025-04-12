@@ -39,7 +39,6 @@ if (!post) {
 }
 
 const { Content } = await post.render();
-console.log(post.data);
 ---
 
 <Layout title={post.data.title}>
@@ -48,7 +47,7 @@ console.log(post.data);
     <Image
       src={post.data.image}
       width={1024}
-      height={1024 / 1.5}
+      height={683}
       alt={post.data.title}
       class="rounded-2xl shadow-xl mb-4 aspect-thumbnail object=cover"
     />
